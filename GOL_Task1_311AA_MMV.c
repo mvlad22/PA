@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 
-int main(int argc, char *argv[])
+int main(int argc, const char *argv[])
 {
     
     FILE *fis_in, *fis_out;
