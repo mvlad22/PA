@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int gaseste_vecini(char ** grila, int i, int j, int m)
+int gaseste_vecini(char ** grila, int i, int j, int n, int m)
 {
         int k, l;   //contorii submatricei cautare, se ia o matrice de 3x3 in jurul elementului 
                     //trimis in apel, si se verifica starea celor 8 vecini din jur.
@@ -11,18 +11,17 @@ int gaseste_vecini(char ** grila, int i, int j, int m)
         {
             for(k=-1;k<=1;k++)
             {
-                if((i*m+l)<0 || ((j+k)<0) || (l==0 && k==0)) /*exclud cazurile cu offset negativ, 
-                                                            sa nu se iasa din matrice*/
+                if((i+l) < 0 || (j+k) < 0 || (i+l) >= n || (j+k) >= m || (l==0 && k==0)) /*exclud cazurile cu offset negativ, 
+                                                                                            sa nu se iasa din matrice*/
                 {
-                    goto label1;
+                    continue;
                 }    
                     
-                if(*((*grila)+i*m+l+j+k)=='X')  //daca celula este vie, ('X'), se adauga la numarul de vecini
+                if(*((*grila)+(i+l)*m+j+k)=='X')  //daca celula este vie, ('X'), se adauga la numarul de vecini  
                 {
                     numar_vecini++;
                 }
 
-                label1: 
             }
         }
         return numar_vecini;
@@ -39,9 +38,17 @@ void populare_grila(FILE * fis_in, char ** grila, int nr_linii, int nr_coloane)
         {   
             for(contor_coloane=0;contor_coloane<nr_coloane;contor_coloane++)
             {
+                
                 if(!(feof(fis_in)))
                 {   
                     ch=fgetc(fis_in);
+
+                    if(ch == '\n')
+                    {
+                        contor_coloane--;
+                        continue;
+                    }
+
                     if(ch=='X'|| ch=='+')
                     {
                         *(((*grila)+contor_linii*nr_coloane)+contor_coloane)=ch;
@@ -54,20 +61,21 @@ void populare_grila(FILE * fis_in, char ** grila, int nr_linii, int nr_coloane)
 
 }
 
-void afisare_grila(FILE * fis_out, char ** grila, int nr_linii, int nr_coloane)
+void afisare_grila(FILE * fis_out, char ** grila, int nr_linii, int nr_coloane, int NR_TASK)
 {
-    
-    int contor_linii, contor_coloane;
-    //fseek(fis_out, 0L, 0);
-    
-    for(contor_linii=0;contor_linii<nr_linii;contor_linii++)
+    if(NR_TASK==1)
     {
-        for(contor_coloane=0;contor_coloane<nr_coloane;contor_coloane++)
+        int contor_linii, contor_coloane;
+    
+        for(contor_linii=0;contor_linii<nr_linii;contor_linii++)
         {
-            fputc(*((*grila)+contor_linii*nr_coloane+contor_coloane),fis_out);
-        }
-        //fputc('\n',fis_out);
+            for(contor_coloane=0;contor_coloane<nr_coloane;contor_coloane++)
+            {
+                fputc(*((*grila)+contor_linii*nr_coloane+contor_coloane),fis_out);
+            }
+            fputc('\n',fis_out); 
 
+        }
     }
 
 }
@@ -84,7 +92,7 @@ int main(int argc, const char *argv[])
         exit(1);
     }
 
-    if((fisier_output=(FILE*)fopen(argv[2],"at"))==NULL)
+    if((fisier_output=(FILE*)fopen(argv[2],"wt"))==NULL)
     {
         perror("Write file error");
         exit(2);
@@ -127,7 +135,8 @@ int main(int argc, const char *argv[])
     int nr_vecini;
 
     populare_grila(fisier_input, &grila_initiala, N, M);
-    afisare_grila(fisier_output, &grila_initiala, N, M);
+    afisare_grila(fisier_output, &grila_initiala, N, M,T);
+    fputc('\n', fisier_output);
 
     for(i=0;i<N;i++)
         {
@@ -145,7 +154,7 @@ int main(int argc, const char *argv[])
         {
             for(j=0;j<M;j++)
             {
-                nr_vecini=gaseste_vecini(&grila_initiala,i,j,M);
+                nr_vecini=gaseste_vecini(&grila_initiala,i,j,N,M);
 
                 if((*(grila_initiala+i*M+j)=='X'))//daca celula este vie
                 {
@@ -176,7 +185,7 @@ int main(int argc, const char *argv[])
                 label2:
             }
         }
-        afisare_grila(fisier_output, &grila_urmatoare, N, M);
+        afisare_grila(fisier_output, &grila_urmatoare, N, M,T);
         fprintf(fisier_output,"\n");
 
         for(i=0;i<N;i++)
