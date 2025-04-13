@@ -88,26 +88,18 @@ if(T==1)
 
                 if((*(grila_initiala+i*M+j)=='X'))//daca celula este vie
                 {
-                    if(nr_vecini<2)//celula vie cu <2 vecini moare
-                    {
-                        *(grila_urmatoare+i*M+j)='+';
-                        continue; //se realizeaza o singura operatie per celula
-                    }
-
-                    if(((nr_vecini == 2) || (nr_vecini == 3))) // celula vie cu exact 2 sau exact 3 vecini supravietuieste
-                    {
-                        continue;
-                    }
-
-                    if(nr_vecini>3)//celula vie cu >3 vecini moare
+                    if(nr_vecini<2 || nr_vecini>3) //celula vie cu <2 sau >3 vecini moare
                     {
                         *(grila_urmatoare+i*M+j)='+';
                         continue;
                     }
                 }
-                 else if((nr_vecini==3))//celula moarta cu exact 3 vecini invie
+                 else if(*(grila_urmatoare+i*M+j)=='+')//celula moarta cu exact 3 vecini invie
                 {
-                    *(grila_urmatoare+i*M+j)='X';
+                    if(nr_vecini==3)
+                        {
+                            *(grila_urmatoare+i*M+j)='X';
+                        }   
                     continue;
                 }
 
