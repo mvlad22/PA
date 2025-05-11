@@ -8,6 +8,12 @@
 
 int main(int argc, const char *argv[])
 {
+    if(argc != 3)
+    {
+        fprintf(stderr, "3 agrs needed");
+        return 1;
+    }
+    
     
     FILE *fisier_input, *fisier_output;
 
