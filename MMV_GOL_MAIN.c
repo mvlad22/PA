@@ -277,7 +277,7 @@ else if(T==3)
 
         construire_arbore(&root,grila_initiala,0,K,N,M);
 
-        parcurgere_preordine(root,grila_initiala,N,M,fisier_output);
+        parcurgere_preordine(root,grila_initiala,0,N,M,fisier_output);
 
         eliberare_arbore(root);
 
