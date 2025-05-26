@@ -4,6 +4,7 @@
 #include "MMV_GOL_TASK1.h"
 #include "MMV_GOL_TASK2.h"
 #include "MMV_GOL_TASK3.h"
+#include "MMV_GOL_TASK4.h"
 
 
 
@@ -288,9 +289,46 @@ else if(T==3)
 
 else if(T==4)
     {
-    //fclose(fisier_input);
-    //fclose(fisier_output);
-    //return 0;
+        for(i=0;i<N;i++)
+        {
+            for(j=0;j<M;j++)
+            {
+                *((grila_urmatoare+i*M)+j)=*((grila_initiala+i*M)+j);   //initializez generatia urmatoare cu cea prezenta
+                                                                        // pentru a nu pierde celulele originale in timpul operatiilor
+            }
+        }
+
+        nod_arbore *root = NULL;
+        root=(nod_arbore*)malloc(sizeof(nod_arbore));
+        if(root == NULL)
+        {
+            perror("Malloc fail arbore binar liste");
+            exit(5);
+        }
+        root->left=NULL;
+        root->right=NULL;
+
+
+        
+            Celula *lista_initiala_celule = NULL;
+
+            for(i=0;i<N;i++)
+            {
+                for(j=0;j<M;j++)
+                {
+                    if(*(grila_initiala+i*M+j) == 'X') //daca celula este vie, se retine in lista nodului radacina
+                    {
+                        adaugare_celula(&lista_initiala_celule,i,j); //formam lista celulelor vii pentru radacina
+                    }
+                }
+            }
+        root->data=lista_initiala_celule;   //in acest moment avem radacina arborelui binar
+
+        construire_arbore(&root,grila_initiala,0,K,N,M);
+
+        parcurgere_preordine_T4(root,grila_initiala,0,N,M,fisier_output);
+
+        eliberare_arbore(root);
     }
 
     free(grila_initiala);
