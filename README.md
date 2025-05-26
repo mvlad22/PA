@@ -1,9 +1,7 @@
 # GameOfLife.c
-***
 [Conway's Game of Life](playgameoflife.com) implementation in C.
-[Project Details](https://site-pa.netlify.app/proiecte/game_of_life/)
+Project Details [here](https://site-pa.netlify.app/proiecte/game_of_life/)
 # Functions
-***
 ## Task 1 
 ```
 gaseste_vecini                      # takes a grid and the coordinates of a cell within, outputs the number of live cells around it
@@ -26,7 +24,7 @@ gaseste_vecini_T3                   # same as the function from Task 1, takes ch
 afisare_grila_T3                    # same as the function from Task 1, takes char* instead of char**
 construire_arbore                   # creates the tree
 copiaza_grila                       # creates a deep copy of the matrix you call it with, returns a char*
-apply_rule_B                        # see [project details](https://site-pa.netlify.app/proiecte/game_of_life/)
+apply_rule_B                        # applies rule B (any cell with exactly 2 neighbors remains/becomes alive) for a given matrix
 apply_classic_rule                  # applies the classic rule set for a given matrix
 furnizare_lista_celule_diferite     # takes the current generation matrix and the next generation matrix, returns a linked list containing coordinates of the different cells
 parcurgere_preordine                # preoder traversal of the tree
