@@ -3,7 +3,7 @@
 #include <string.h>
 #include "MMV_GOL_TASK3.h"
 
-int gaseste_vecini_T3(char * grila, int i, int j, int n, int m)    
+int gaseste_vecini_T3(char * grila, int i, int j, int n, int m) //char* in loc de char**, singura diferenta intre versiunile celor 2 task-uri
 {
         int k, l;   //contorii submatricei cautare, se ia o matrice de 3x3 in jurul elementului 
                     //trimis in apel, si se verifica starea celor 8 vecini din jur.
@@ -28,7 +28,7 @@ int gaseste_vecini_T3(char * grila, int i, int j, int n, int m)
         return numar_vecini;
 }
 
-void afisare_grila_T3(FILE * fis_out, char * grila, int nr_linii, int nr_coloane, int NR_TASK)
+void afisare_grila_T3(FILE * fis_out, char * grila, int nr_linii, int nr_coloane, int NR_TASK) //vezi comentariu linie 6
 {
     if(NR_TASK==1)
     {
@@ -66,7 +66,6 @@ void construire_arbore(nod_arbore **root, char* grila_principala, int nivel, int
 
 
     //mergem in stanga, aplicam regula B:
-    //grila_temp=list_to_grid(grila_principala,nr_linii,nr_coloane);     //reconstruiesc grila, pornind de la lista de noduri a radacinii
     copie_stanga = copiaza_grila(grila_temp, nr_linii, nr_coloane);
     grila_stanga = apply_rule_B(copie_stanga,nr_linii,nr_coloane);
     free(copie_stanga);
@@ -75,7 +74,6 @@ void construire_arbore(nod_arbore **root, char* grila_principala, int nivel, int
     left_child->left = NULL;
     left_child->right = NULL;
     left_child->data = furnizare_lista_celule_diferite(grila_temp,grila_stanga,nr_linii,nr_coloane);
-    //free(grila_temp);
 
     (*root)->left=left_child;
     construire_arbore(&left_child,grila_stanga,nivel+1,adancime,nr_linii,nr_coloane);
@@ -87,7 +85,6 @@ void construire_arbore(nod_arbore **root, char* grila_principala, int nivel, int
 
 
     //si acum mergem in dreapta, aplicam regula clasica:
-    //grila_temp=list_to_grid((*root)->data,nr_linii,nr_coloane);
     copie_dreapta = copiaza_grila(grila_temp, nr_linii, nr_coloane);
     grila_dreapta = apply_classic_rule(copie_dreapta,nr_linii,nr_coloane);
     free(copie_dreapta);
@@ -96,7 +93,6 @@ void construire_arbore(nod_arbore **root, char* grila_principala, int nivel, int
     right_child->left = NULL;
     right_child->right = NULL;
     right_child->data = furnizare_lista_celule_diferite(grila_temp,grila_dreapta,nr_linii,nr_coloane);
-    //free(grila_temp);
 
     (*root)->right=right_child;
     construire_arbore(&right_child,grila_dreapta,nivel+1,adancime,nr_linii,nr_coloane);
@@ -126,30 +122,6 @@ char *copiaza_grila(char *grila_sursa, int nr_linii, int nr_coloane)
 
     return copie;
 }
-
-/*char *list_to_grid(Celula *lista_celule,int N, int M)
-{
-    char *grid_aux = (char*)malloc(N*M*sizeof(char));
-    int i,j;
-
-    for(i=0;i<N;i++)
-    {
-        for(j=0;j<M;j++)
-        {
-            *(grid_aux+i*M+j)='+';  //initializez cu celula moarta
-            if((i == lista_celule->l) && (j == lista_celule->c))    //daca contorii ajung la coordonatele unei celule vii, modificarea se reflecta in grila auxiliara
-            {
-                *(grid_aux+i*M+j)='X';
-                if(lista_celule->urmator != NULL)   //avansez cu lista celulelor pe masura ce populez grila auxiliara
-                {
-                    lista_celule=lista_celule->urmator;
-                }
-            }
-        }
-    }
-    return grid_aux;    //NU UITA SA DAI FREE IN FUNCTIA DE ARBORE DUPA APEL
-}
-    */
 
 char *apply_rule_B(char *grid, int N, int M)
 {   
@@ -211,7 +183,7 @@ Celula *furnizare_lista_celule_diferite(char *grila_parinte, char *grila_fiu, in
             }
         }
     }
-    return lista_aux;   //NU UITA DE FREE (dar in main, pentru ca lista este informatia utila a arborelui)
+    return lista_aux;
 }
 
 void aplica_diferente(char *grila, Celula *diferente, int N, int M) {

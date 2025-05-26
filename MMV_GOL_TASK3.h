@@ -16,16 +16,22 @@ struct arbore
 typedef struct arbore nod_arbore;
 
 
-//void NodeToGrid(nod_arbore *root, int numar_coloane);
+int gaseste_vecini_T3(char * grila, int i, int j, int n, int m);
+void afisare_grila_T3(FILE * fis_out, char * grila, int nr_linii, int nr_coloane, int NR_TASK);
+
 void construire_arbore(nod_arbore **root, char* grila_principala, int nivel, int adancime, int nr_linii, int nr_coloane);
+
 char *copiaza_grila(char *grila_sursa, int nr_linii, int nr_coloane);
-char *list_to_grid(Celula *lista_celule, int N, int M);
+
 char *apply_rule_B(char *grid, int N, int M);
 char *apply_classic_rule(char *grid, int N, int M);
+
 Celula *furnizare_lista_celule_diferite(char *grila_parinte, char *grila_fiu, int nr_linii, int nr_coloane); 
-//functie care cauta diferentele intre doua grile, unde exista diferente, se introduc in lista coordonatele, un fel de "grid_to_list", opusul functiei "list_to_grid"
+
 void parcurgere_preordine(nod_arbore* root, char* grila_parinte, int nivel, int N, int M, FILE *fis_out);
+
 void aplica_diferente(char *grila, Celula *diferente, int N, int M);
+
 void eliberare_arbore(nod_arbore* root);
 
 
