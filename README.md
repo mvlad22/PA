@@ -1,3 +1,11 @@
+# IMPORTANT
+Task 4 is not yet fully implemented, only compile and run the first three if you want a stable executable program
+# Compiling the program
+You can compile from the command line, using
+```
+gcc -O3 MMV_GOL_MAIN.c MMV_GOL_TASK1.c ... -o a.out
+and then you can run the checker (see project details section)
+```
 # GameOfLife.c
 [Conway's Game of Life](playgameoflife.com) implementation in C.
 Project Details [here](https://site-pa.netlify.app/proiecte/game_of_life/)
